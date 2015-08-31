@@ -59,3 +59,41 @@ File.open(local_fname, "r") do |file|
     puts line if idx % 42 == 41 #remainder of 41 after modulo 42, because index starts at "0".
   end
 end
+
+--------------------------------------------------------------
+
+# Closing a file
+# Written like this:
+datafile = File.open("sample.txt", "r")
+lines = datafile.readlines
+datafile.close
+
+lines.each { |line| puts line }
+
+# Or in a block, like this:(could be passed into other methods afterwards)
+lines = File.open("sample.txt", "r") { |datafile| datafile.readlines }
+
+lines.each { |line| puts line }
+
+----------------------------------------------------------------
+
+# File existence & properties
+# Boolean check to see if a file w/ given name exists
+if File.exists?(filename)
+  puts "#{filename} exists"
+end
+
+# Create a new directory UNLESS it already exists.  Also add a new file to it.
+dirname = "data-files"
+Dir.mkdir(dirname) unless File.exists?dirname
+File.open("#{dirname}/new-file.txt", "w") { |f| f.write("Hello World!") }
+
+# search Directory name or pattern with wildcards and return an array of filenames
+# count the files in my Downloads directory:
+puts Dir.glob('Downloads/*').length   #=> 382
+
+# count all files in my Downloads directory and in sub-directories
+puts Dir.glob('Downloads/**/*').length   #=> 308858
+
+# list just PDF files, either with .pdf or .PDF extensions:
+puts Dir.glob('Downloads/*.{pdf,PDF}').join(",\n")
